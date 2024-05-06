@@ -83,7 +83,7 @@ const sendEmail = async (info, receiverEmail, body) => {
 
     try {
 
-        const info = await transporter.sendMail(mailOptions);
+        // const info = await transporter.sendMail(mailOptions);
         console.log('Message sent: %s', info.messageId);
         return info;
     } catch (error) {

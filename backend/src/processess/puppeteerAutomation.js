@@ -72,10 +72,12 @@ async function startAutomation(url) {
     }
     page = await downloadAttachment(page)
 
-    await scanDirectoryForWatermarks(downloadDirectory)
+    // Wait for downloads to complete - simplistic approach
+    await new Promise(resolve => setTimeout(resolve, 10000)); 
+
+    await recordFilesInDatabase(downloadDirectory);
 
     return 
-
 
   } catch (error) {
     logger.error(`Puppeteer automation failed: ${error.message}`);

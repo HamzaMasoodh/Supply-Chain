@@ -18,7 +18,14 @@ model Url {
   updatedAt DateTime @updatedAt
 }
 
+model FileRecord {
+  id           Int      @id @default(autoincrement())
+  directoryName String
+  fileName      String
+
+}
+
 datasource db {
-  provider = "sqlserver"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }

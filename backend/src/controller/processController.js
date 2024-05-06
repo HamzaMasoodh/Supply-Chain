@@ -7,8 +7,8 @@ async function processURLsContinuously() {
       for (let i = 0; i < global.sharedUrls.length; i++) {
         const data = global.sharedUrls[i];
         try {
-          logger.info(`Processing URL at index ${i}: ${data.URL}`);
-          await startAutomation(data.URL);
+          logger.info(`Processing URL at index ${i}: ${data}`);
+          await startAutomation(data);
           logger.info(`Completed processing URL at index ${i}`);
         } catch (error) {
           logger.error(`Failed to process URL at index ${i}: ${error}`);

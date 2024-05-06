@@ -44,51 +44,37 @@ async function loginProcess(page) {
         await page.waitForNavigation({ waitUntil: 'networkidle0' });
 
 
-        const logout = await findLogoutLink(page)
+        const result = await waitForLogoutLink(page, 180);
 
-        if (!logout) {
-            try {
-                //Submit Button
-                await page.waitForSelector('a[title=Submit]')
-                await page.click('a[title=Submit]');
-    
-            } catch (error) {
-    
-                logger.error(`Unable to click on submit button ${error.message}`);
-                throw new Error(`Input for Password not found ${error.message}`)
-            }
-        }else{
-            return page
-        }
-       
-
-        // Wait for OTP input manually by the user
-        // This is a placeholder - you will need to implement the logic to wait for OTP input
-        await page.waitForSelector('selector-for-otp-input', { visible: true });
-        // ...
-
-        // Check if login was successful
-        // This is a placeholder - you will need to implement the logic to check for successful login
-        // You can wait for a selector that appears only upon successful login
-        // or check the URL to be redirected to the logged-in page
-        const loginSuccess = await page.waitForSelector('selector-for-logged-in-state', { visible: true });
-        // ...
-
-        // Perform post-login actions if login is successful
-        if (loginSuccess) {
-            // Wait for 10 seconds on the page
-            await page.waitForTimeout(10000);
-
-            // Perform additional tasks
-            // ...
-
-            logger.info('Login successful and post-login actions performed');
-        }
-        return page
+        return { status: result, page };
     } catch (error) {
         logger.error(`Error occurred in Login Process ${error.message}`);
         throw new Error(`Error occurred in Login Process ${error.message}`)
     }
 }
 
+
+async function waitForLogoutLink(page, maxSeconds) {
+    let attempts = 0;
+    const maxAttempts = maxSeconds / 10;
+
+    return new Promise((resolve, reject) => {
+        const intervalId = setInterval(async () => {
+            try {
+                const logout = await findLogoutLink(page);
+                if (logout) {
+                    clearInterval(intervalId);
+                    resolve(true);
+                } else if (attempts >= maxAttempts) {
+                    clearInterval(intervalId);
+                    resolve(false);
+                }
+                attempts++;
+            } catch (error) {
+                clearInterval(intervalId);
+                reject(`Error checking for logout link: ${error.message}`);
+            }
+        }, 10000); 
+    });
+}
 module.exports = { loginProcess };
