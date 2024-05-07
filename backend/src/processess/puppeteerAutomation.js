@@ -6,8 +6,8 @@ const { loginProcess } = require('./loginProcess');
 require('dotenv').config();
 const path = require('path');
 const { downloadAttachment } = require('./downloadAttachment');
-const { scanDirectoryForWatermarks } = require('./identifyFiles');
 const fs = require('fs');
+const { recordFilesInDatabase } = require('./saveFileProcess');
 
 // Function to log in to a website using Puppeteer
 async function startAutomation(url) {
@@ -68,10 +68,17 @@ async function startAutomation(url) {
     const logout = await findLogoutLink(page)
 
     if (!logout) {
-      page = await loginProcess(page)
+      let result = page = await loginProcess(page)
+      if (result.status) {
+        page = result.page
+      }else{
+        throw new Error
+      }
+  
     }
-    page = await downloadAttachment(page)
+    await downloadAttachment(page)
 
+    
     // Wait for downloads to complete - simplistic approach
     await new Promise(resolve => setTimeout(resolve, 10000)); 
 

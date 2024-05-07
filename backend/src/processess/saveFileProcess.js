@@ -20,3 +20,5 @@ async function recordFilesInDatabase(downloadDirectory) {
     }
   }
   
+
+module.exports = {recordFilesInDatabase}

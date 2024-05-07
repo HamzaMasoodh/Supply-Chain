@@ -4,6 +4,8 @@ const cors = require('cors');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const app = express();
+const fs = require('fs');
+const path = require('path');
 const logger = require('./src/utility/logger')
 const { checkForNewFiles } = require('./src/utility/database')
 const { processURLsContinuously } = require('./src/controller/processController')
@@ -20,7 +22,12 @@ var corsOptions = {
 app.use(cors(corsOptions));
 
 app.use('/', require('./src/routes/uploadFile'))
+const downloadsBaseDir = path.resolve(__dirname, 'downloads');
 
+if (!fs.existsSync(downloadsBaseDir)) {
+  fs.mkdirSync(downloadsBaseDir, { recursive: true });
+}
+    
 async function startApplication() {
   try {
 

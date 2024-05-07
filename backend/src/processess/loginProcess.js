@@ -46,7 +46,7 @@ async function loginProcess(page) {
 
         const result = await waitForLogoutLink(page, 180);
 
-        return { status: result, page };
+        return { status: result, page:page };
     } catch (error) {
         logger.error(`Error occurred in Login Process ${error.message}`);
         throw new Error(`Error occurred in Login Process ${error.message}`)
