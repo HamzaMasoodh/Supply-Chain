@@ -36,6 +36,11 @@ body{
     height: 100%;
 }
 
+.submit__btn{
+    background-color: #434651 !important;
+    color: white !important;
+}
+
 .powered{
     background-color: #242D3A;
     padding: 10px 20px;
@@ -52,6 +57,7 @@ body{
     background: #242D3A;
     cursor: pointer
 }
+.cp{cursor: pointer;}
 
 .people-list .chat-list li.active {
     background: #efefef
@@ -184,7 +190,7 @@ body{
 
 .chat .chat-history .other-message:after {
     border-bottom-color: #e8f1f3;
-    left: 93%
+    left: 63%
 }
 
 .chat .chat-message {
@@ -192,7 +198,10 @@ body{
     background-color: #111929;
     color: white;
 }
-
+.cross__icon{
+    top: -15px;
+    right: 10px;
+}
 .online,
 .offline,
 .me {
@@ -274,7 +283,6 @@ body{
 
 .active{
     border: solid transparent;
-    pointer-events: none;
     border-bottom-color: #242D3A;
     border-width: 10px;
     padding: 0 !important;
